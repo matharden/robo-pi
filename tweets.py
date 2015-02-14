@@ -15,6 +15,10 @@ api = tweepy.API(auth)
 
 tweets = api.direct_messages()
 
+voice = '-ven-us+f3'
+speed = '-s180'
+
 for tweet in tweets:
-    print tweet.text
-    subprocess.call('espeak "' + tweet.sender_screen_name + ' says: ' + tweet.text + '"', shell=True)
+  print tweet.text
+  sentence = tweet.sender_screen_name + ' says: ' + tweet.text
+  subprocess.call('espeak ' + voice + ' ' + speed + ' "' + sentence + '"', shell=True)
