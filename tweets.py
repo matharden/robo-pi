@@ -18,7 +18,13 @@ tweets = api.direct_messages()
 voice = '-ven-us+f3'
 speed = '-s180'
 
+f = open('messages','a')
+# f.write('\n' + tweets.itervalues().next())
+
 for tweet in tweets:
-  print tweet.text
+  f.write('\n' + tweet.text)
+  print tweet.id
   sentence = tweet.sender_screen_name + ' says: ' + tweet.text
-  subprocess.call('espeak ' + voice + ' ' + speed + ' "' + sentence + '"', shell=True)
+  # subprocess.call('espeak ' + voice + ' ' + speed + ' "' + sentence + '"', shell=True)
+
+f.close()
