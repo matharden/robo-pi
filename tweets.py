@@ -18,13 +18,26 @@ tweets = api.direct_messages()
 voice = '-ven-us+f3'
 speed = '-s180'
 
-f = open('messages','a')
-# f.write('\n' + tweets.itervalues().next())
-
-for tweet in tweets:
-  f.write('\n' + tweet.text)
-  print tweet.id
-  sentence = tweet.sender_screen_name + ' says: ' + tweet.text
-  # subprocess.call('espeak ' + voice + ' ' + speed + ' "' + sentence + '"', shell=True)
-
+f = open('messages','r')
+previous_id = f.readline()
+original = f.read()
 f.close()
+
+latest = next(iter(tweets))
+latest_id = str(latest.id)
+print latest_id
+print previous_id
+
+if str(latest_id) != str(previous_id):
+
+  f = open('messages','w')
+  f.write(latest_id + '\n')
+
+  for tweet in tweets:
+    f.write(tweet.text + '\n')
+    print tweet.id
+    sentence = tweet.sender_screen_name + ' says: ' + tweet.text
+    # subprocess.call('espeak ' + voice + ' ' + speed + ' "' + sentence + '"', shell=True)
+
+  f.write(original)
+  f.close()
