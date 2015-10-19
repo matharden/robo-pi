@@ -21,4 +21,4 @@ speed = '-s180'
 for tweet in tweets:
   print tweet.text
   sentence = tweet.sender_screen_name + ' says: ' + tweet.text
-  subprocess.call('espeak ' + voice + ' ' + speed + ' "' + sentence + '"', shell=True)
+  subprocess.call('espeak ' + voice + ' ' + speed + ' "' + sentence + '" 2>/dev/null', shell=True)
