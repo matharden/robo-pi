@@ -2,6 +2,9 @@ import tweepy
 import subprocess
 import os
 
+def normalise(string):
+  return string.replace('\n', ' ').replace('\r', '').replace('  ', ' ')
+
 access_token = os.getenv('ACCESS_TOKEN')
 access_secret_token = os.getenv('ACCESS_SECRET_TOKEN')
 
@@ -18,7 +21,19 @@ tweets = api.direct_messages()
 voice = '-ven-us+f3'
 speed = '-s180'
 
+tweet_list = []
+
 for tweet in tweets:
-  print tweet.text
-  sentence = tweet.sender_screen_name + ' says: ' + tweet.text
-  subprocess.call('espeak ' + voice + ' ' + speed + ' "' + sentence + '" 2>/dev/null', shell=True)
+  t = str(tweet.id)
+  t+= ' ' + tweet.sender_screen_name
+  t+= ' ' + normalise(tweet.text)
+  t+= '\n'
+  tweet_list.append(t)
+
+# Write to file
+f = open('messages.txt', 'w')
+
+for tweet in reversed(tweet_list):
+  f.write(tweet)
+
+f.close()
