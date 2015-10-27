@@ -1,6 +1,7 @@
 import tweepy
 import subprocess
 import os
+import re
 
 def normalise(string):
   return string.replace('\n', ' ').replace('\r', '').replace('  ', ' ')
@@ -21,17 +22,25 @@ tweets = api.direct_messages()
 voice = '-ven-us+f3'
 speed = '-s180'
 
+f = open('messages.txt', 'r+')
+messages = f.readlines()
+
+stored_messages = []
+
+# Get tweet ID from each message on file
+for message in messages:
+  id = re.findall(r'^\d+', message)
+  stored_messages.append(id[0])
+
 tweet_list = []
 
 for tweet in tweets:
-  t = str(tweet.id)
-  t+= ' ' + tweet.sender_screen_name
-  t+= ' ' + normalise(tweet.text)
-  t+= '\n'
-  tweet_list.append(t)
-
-# Write to file
-f = open('messages.txt', 'w')
+  if str(tweet.id) not in stored_messages:
+    t = str(tweet.id)
+    t+= ' ' + tweet.sender_screen_name
+    t+= ' ' + normalise(tweet.text)
+    t+= '\n'
+    tweet_list.append(t)
 
 for tweet in reversed(tweet_list):
   f.write(tweet)
