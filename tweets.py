@@ -37,6 +37,7 @@ tweet_list = []
 for tweet in tweets:
   if str(tweet.id) not in stored_messages:
     t = str(tweet.id)
+    t+= ' U'
     t+= ' ' + tweet.sender_screen_name
     t+= ' ' + normalise(tweet.text)
     t+= '\n'
