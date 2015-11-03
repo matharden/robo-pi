@@ -32,6 +32,7 @@ steps = [
   },
 ]
 
+number_of_messages = 0
 pointer = 0
 
 def assignYes(action, args):
@@ -56,47 +57,65 @@ def assignNo(action, args):
 def fetchMessages():
   pass
 
-# Find Unread messages in messages.txt.
-# "You have n messages. Shall I read them to you?"
+# Get all unread messages from messages.txt.
 def checkMessages():
   pass
-  # messageId = getNextUnreadMessage()
-  # if messageId
-    # assignYes(readMessage, messageId)
-  # else
-    # assignNo(stop)
+  # number_of_messages = len(messages)
+  # if number_of_messages:
+  #   message = 'You have ' + len(messages) + ' messages. Shall I read them?'
+  #   say(message, readMessage, stop, stop)
+  # else:
+  #   say('You have no messages.', null, null, stop)
 
-# Return message ID/line or zero/false
-def getNextUnreadMessage():
-  pass
-
-# Return details and form sentence
+# Return details and form a sentence
 # eg. "Daddy says good night, see you in the morning."
-def getMessage(id):
+def getMessageFromList(i):
   pass
+  # return ''
 
 # Read message id
-def readMessage(id):
+def readMessage():
   pass
-  # message = getMessage(id)
-  # say(message, readMessage, next, id)
+  # message = getMessageFromList(i)
+  # say(message, null, null, repeatMessage)
 
-def say(message, yesAction, noAction, yesArgs):
+def repeatMessage():
+  pass
+  # say('Would you like to hear that again?', readMessage, deleteMessage, stop)
+
+def deleteMessage():
+  pass
+  # say('Shall I delete this message?', markMessageAsRead, remainingMessages, stop)
+
+def goToNextMessage():
+  pass
+  # pointer += 1
+  # readMessage()
+
+def say(message, yesAction, noAction, timeout):
   pass
   # espeak(message)
   # assignYes(yesAction, yesArgs)
   # assignNo(noAction)
 
-# eg. markMessage('R')
-def markMessageRead():
+def markMessageAsRead():
   pass
+  # mark with 'R'
+  # write to file using ID
+  # remainingMessages
 
-# readMessage(1)
-
+def remainingMessages():
+  pass
+  # if number_of_messages > pointer:
+  #   say('There are n messages', null, null, goToNextMessage)
+  # else:
+  #   say('You have no more messages.', null, null, stop)
 
 # End any flow. Say goodbye.
 def stop():
   pass
+  # reset
+  # say(randomMessage('goodbye'))
 
 def question(step):
   global steps
