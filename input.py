@@ -1,4 +1,5 @@
 import subprocess
+import time
 
 steps = [
   {
@@ -32,9 +33,6 @@ steps = [
   },
 ]
 
-number_of_messages = 0
-pointer = 0
-
 def assignYes(action, args):
     pass
     # while True:
@@ -53,6 +51,15 @@ def assignNo(action, args):
     #     action(args)
     #     # break
 
+def assignYesNo(yes, no):
+    i = raw_input()
+    # Test for no first, so enter does 'yes'.
+    if no is not None and i.lower() == 'n':
+        no()
+    else:
+        if yes is not None:
+            yes()
+
 # Get from Twitter and save them to messeges.txt.
 def fetchMessages():
     pass
@@ -66,29 +73,27 @@ def getMessages():
 
 # Get all unread messages from messages.txt.
 def checkMessages():
-    pass
-    # number_of_messages = len(messages)
-    # if number_of_messages:
-    #   message = 'You have ' + len(messages) + ' messages. Shall I read them?'
-    #   say(message, readMessage, stop, stop)
-    # else:
-    #   say('You have no messages.', null, null, stop)
+    global number_of_messages, messages
+    if number_of_messages:
+        message = 'You have ' + str(number_of_messages) + ' messages. Shall I read them?'
+        say(message, readMessage, stop, stop)
+    else:
+        say('You have no messages.', None, None, stop)
 
 # Return details and form a sentence
 # eg. "Daddy says good night, see you in the morning."
-def getMessageFromList(i):
-    pass
-    # return ''
+def getMessageFromList():
+    global messages, pointer
+    return messages[pointer]
 
 # Read message id
 def readMessage():
-    pass
-    # message = getMessageFromList(i)
-    # say(message, null, null, repeatMessage)
+    message = getMessageFromList()
+    say(message, None, None, repeatMessage)
 
 def repeatMessage():
-    pass
-    # say('Would you like to hear that again?', readMessage, deleteMessage, stop)
+    print 'repeatMessage'
+    say('Would you like to hear that again?', readMessage, deleteMessage, stop)
 
 def deleteMessage():
     pass
@@ -100,10 +105,17 @@ def goToNextMessage():
     # readMessage()
 
 def say(message, yesAction, noAction, timeout):
-    pass
     # espeak(message)
-    # assignYes(yesAction, yesArgs)
+    print message
+    # print yesAction
+    # assignYes(yesAction)
     # assignNo(noAction)
+    assignYesNo(yesAction, noAction)
+    print 'sleep for 1 second'
+    time.sleep(1)
+    print 'sleep done, now run timeout method'
+    timeout()
+    print 'timeout done'
 
 def markMessageAsRead():
     pass
@@ -120,30 +132,34 @@ def remainingMessages():
 
 # End any flow. Say goodbye.
 def stop():
-    pass
+    print 'STOP'
     # reset
     # say(randomMessage('goodbye'))
 
-def question(step):
-    global steps
-    answer = raw_input(steps[step]['msg'])
-    if answer == 'y':
-        next_step = steps[step]['yes']
-    else:
-        next_step = steps[step]['no']
-    question(next_step)
+# def question(step):
+#     global steps
+#     answer = raw_input(steps[step]['msg'])
+#     if answer == 'y':
+#         next_step = steps[step]['yes']
+#     else:
+#         next_step = steps[step]['no']
+#     question(next_step)
 
 # question(1)
 
-c = 0
-def read():
-    global c, messages
-    a = raw_input('read next?')
-    if a == 'y':
-        print messages[c]
-        subprocess.call('espeak ' + messages[c] + ' 2>/dev/null', shell=True)
-        c+= 1
-        read()
+# c = 0
+# def read():
+#     global c, messages
+#     a = raw_input('read next?')
+#     if a == 'y':
+#         print messages[c]
+#         subprocess.call('espeak ' + messages[c] + ' 2>/dev/null', shell=True)
+#         c+= 1
+#         read()
 
 messages = getMessages()
-read()
+
+number_of_messages = len(messages)
+pointer = 0
+
+checkMessages()
