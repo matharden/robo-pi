@@ -57,6 +57,13 @@ def assignNo(action, args):
 def fetchMessages():
     pass
 
+# Open file and return contents.
+def getMessages():
+    f = open('messages.txt', 'r')
+    messages = f.readlines()
+    f.close()
+    return messages
+
 # Get all unread messages from messages.txt.
 def checkMessages():
     pass
@@ -128,13 +135,9 @@ def question(step):
 
 # question(1)
 
-f = open('messages.txt', 'r')
-messages = f.readlines()
-f.close()
-
 c = 0
 def read():
-    global c
+    global c, messages
     a = raw_input('read next?')
     if a == 'y':
         print messages[c]
@@ -142,4 +145,5 @@ def read():
         c+= 1
         read()
 
+messages = getMessages()
 read()
